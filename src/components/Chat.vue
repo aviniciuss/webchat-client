@@ -44,10 +44,13 @@
         setUsername (e) {
           if (e.keyCode === 13) {
             const user = { name: e.target.value, date: new Date(), hash: md5(new Date()) }
-            this.$storage.setItem('webchat_data', JSON.stringify(user))
-            this.$socket.emit('client-connected', user)
 
-            this.username = this.getUserName()
+            this.$http.post('/api/dialogs', { client_name: user.name, client_channel: user.hash })
+                .then((response) => {
+                  this.$socket.emit('client-connected', user)
+                  this.$storage.setItem('webchat_data', JSON.stringify(user))
+                  this.username = this.getUserName()
+                })
           }
         },
         sendMessage (e) {

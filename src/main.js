@@ -3,11 +3,14 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import VueSocketio from 'vue-socket.io'
+import axios from 'axios'
+
 import App from './App'
 
 Vue.use(Vuetify)
 Vue.use(VueSocketio, 'http://localhost:3000')
 Vue.config.productionTip = false
+Vue.http = Vue.prototype.$http = axios.create({ baseURL: 'http://localhost:8000' })
 
 Vue.storage = Vue.prototype.$storage = window.sessionStorage
 
